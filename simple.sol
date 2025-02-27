@@ -14,7 +14,7 @@ contract SimpleToken {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
     constructor(uint256 _initialSupply) {
-        totalSupply = _initialSupply * 10 ** uint256(decimals);
+        totalSupply = _initialSupply * (10 ** uint256(decimals));
         balanceOf[msg.sender] = totalSupply;
     }
 
@@ -36,10 +36,9 @@ contract SimpleToken {
     }
 
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
-        require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
         require(balanceOf[from] >= value, "ERC20: insufficient balance");
-        require(allowance[from][msg.sender] >= value, "ERC20: allowance exceeded");
+        require(allowance[from][msg.sender] >= value, "ERC20: transfer amount exceeds allowance");
 
         balanceOf[from] -= value;
         balanceOf[to] += value;
